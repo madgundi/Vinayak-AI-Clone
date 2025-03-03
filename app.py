@@ -159,4 +159,4 @@ else:
     st.info("Please initialize the system using the sidebar.")
 
 st.markdown("---")
-st.markdown("AI Clone powered by GROQ and LangChain")
+
