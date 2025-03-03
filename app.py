@@ -1,15 +1,3 @@
-# Install required packages (Uncomment the line below if running locally)streamlit
-langchain
-langchain_groq
-langchain_community
-sentence-transformers
-faiss-cpu
-unstructured
-PyPDF2
-python-docx
-pymupdf
-
-
 import streamlit as st
 import os
 import tempfile
