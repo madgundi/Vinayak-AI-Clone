@@ -1,3 +1,6 @@
+# Install required packages (Uncomment the line below if running locally)
+!pip install streamlit langchain langchain-community langchain-groq sentence-transformers faiss-cpu unstructured PyPDF2 python-docx pymupdf tiktoken
+
 import streamlit as st
 import os
 import tempfile
@@ -15,15 +18,15 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
 
-# Set API Key
+# ✅ Set API Key (Replace with your actual API key)
 GROQ_API_KEY = "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"
 os.environ["GROQ_API_KEY"] = GROQ_API_KEY
 
-# Initialize Logging
+# ✅ Initialize Logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# MultiFormatRAG Class
+# ✅ MultiFormatRAG Class
 class MultiFormatRAG:
     def __init__(self):
         self.loader_map = {
@@ -69,34 +72,19 @@ class MultiFormatRAG:
            """**Goal**
 I want a chatbot that references a PDF about Vinayak Madgundi's background, skills, projects, and certifications. 
 It should provide short answers (with emojis) for simple questions, and **detailed explanations** (referencing PDF
-insights) for more complex questions. The chatbot must maintain a warm, human tone and never reveal any non-human origins.
-
-**Return Format**
-1. Concise Responses (Simple Queries):
-   - Under six words.
-   - Use relevant emojis (e.g., ✅, 🤖) to convey friendliness and clarity.
-
-2. Detailed Explanations (In-Depth Queries):
-   - Integrate key insights from the PDF about Vinayak Madgundi's educational background, technical skills, and certifications.
-   - Provide a warm, empathetic, and structured explanation.
-   - Always maintain precision and clarity, referencing relevant data from the PDF.
-
-**Warnings**
-- Never disclose any AI-related details or mention you're a system.
-- Remain consistent with Vinayak Madgundi's persona—an expert full-stack web developer with advanced problem-solving skills.
+insights) for more complex questions. 
 
 **Behavioral Directives**
 - Present yourself as a knowledgeable human expert.
-- Never break the "no AI disclosure" rule.
-- Insert emojis to add warmth and clarity.
-- Prioritize user understanding and real-world context.
-""" )
+- Use emojis for warmth and clarity.
+"""
+        )
         prompt_template = PromptTemplate(
             input_variables=["chat_history", "context", "question"],
             template=f"{system_prompt}\n\nChat History:\n{{chat_history}}\n\nContext:\n{{context}}\n\nQuestion:\n{{question}}\n\nAnswer:"
         )
         memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-        llm = ChatGroq(model="llama3-70b-8192", temperature=0, max_tokens=None, timeout=None, max_retries=2)
+        llm = ChatGroq(model="llama3-70b-8192", temperature=0)
         return ConversationalRetrievalChain.from_llm(
             llm=llm,
             retriever=vectorstore.as_retriever(search_kwargs={"k": 3}),
