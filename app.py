@@ -1,13 +1,3 @@
-import streamlit
-import langchain
-import langchain_groq
-import langchain_community
-import sentence-transformers
-import faiss-cpu
-import unstructured
-import PyPDF2
-import python-docx
-import pymupdf
 import streamlit as st
 import os
 import tempfile
